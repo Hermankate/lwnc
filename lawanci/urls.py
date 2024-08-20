@@ -29,4 +29,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("",include('donations.urls')),
     path('admin/', admin.site.urls),
+    path('', include('paypal.standard.ipn.urls')),
 ]

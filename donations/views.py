@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from  paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid
+from django.urls import reverse
 
 # Create your views here.
 # index page.
@@ -23,7 +27,26 @@ def contact(request):
 
 # donate page.
 def donate(request):
-    return render(request,'donate.html', {})
+    inputprice =3
+    amount = inputprice# must be picked from either the choice or what the user inputs
+    host = request.get_host()
+    paypal_donate = {
+        'business':settings.PAYPAL_RECIEVER_EMAIL,
+        'amount': amount,
+        'invoice': uuid.uuid4(),
+        'currency_code':'USD',
+        'notify_url':f"http://{host}{reverse('paypal-ipn')}",
+        'return_url':f"http://{host}{reverse('index')}",#page when donation was successfull
+        'cancel_url':f"http://{host}{reverse('donate')}"#page when donation was unsuccessfull
+
+    }
+    paypal_donated=PayPalPaymentsForm(initial=paypal_donate)
+
+    context ={
+        'paypal':paypal_donated
+    }
+
+    return render(request,'donate.html', context )
 
 # event page.
 def event(request):

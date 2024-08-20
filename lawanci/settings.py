@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "donations"
+    "donations",
+    "paypal.standard.ipn"
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
+
+# paypal configurations for making donations
+PAYPAL_RECIEVER_EMAIL = 'hermankats16@gmail.com'# email required to be put
+PAYPAL_TEST = True
